@@ -8,6 +8,7 @@
         <p>comment: {{ comment.comment }}</p>
         <p>
             <button v-on:click="navigateTo('/comment/'+ comment.id)">ดู comment</button>
+            <button v-on:click="editComment('/comment/edit/'+ comment.id)">แก้ไข comment</button>
             <button v-on:click="deleteComment(comment)">ลบข้อมูล</button>
         </p>
         <hr>
@@ -40,6 +41,15 @@ export default {
         },
         async refreshData() {
             this.comments = (await CommentsService.index()).data
+        },
+        async editComment() {
+            try {
+                await CommentsService.put(comment)
+                this.refreshData()
+            }
+            catch (err) {
+                console.log(err)
+            }
         }
     }
 }
